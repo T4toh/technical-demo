@@ -54,8 +54,7 @@ func _ready():
 	
 	enemy = Character.new("", 100, 20, 5)
 	enemies.add_member(enemy)
-	add_log("SI VES ESTO, FUNCIONA", Color.YELLOW)
-	print(battle_log)
+	
 	update_ui()
 
 func update_ui():
@@ -174,6 +173,7 @@ func add_log(text: String, color: Color):
 	label.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	label.bbcode_enabled = true
 	label.scroll_active = false
+	label.fit_content = true
 	
 	label.text = "[color=%s]%s[/color]" % [color.to_html(), text]
 
