@@ -54,7 +54,7 @@ func _ready():
 	
 	enemy = Character.new("", 100, 20, 5)
 	enemies.add_member(enemy)
-	
+
 	update_ui()
 
 func update_ui():
@@ -133,12 +133,11 @@ func on_hero_attack():
 	var alive = enemies.get_alive_members()
 	if alive.is_empty():
 		return
-
-	var attacker = heroes.get_alive_members()[0]
+	# Atacante random
+	var attacker = heroes.get_alive_members_random()
+	# Target random
 	var target = alive[randi() % alive.size()]
-	var damage = max(attacker.attack - target.defense, 0)
-
-	target.take_damage(attacker.attack)
+	var damage = target.take_damage(attacker.attack)
 
 	add_log(
 		attacker.name + " atacó a " + target.name + " e hizo " + str(damage) + " DMG",
@@ -151,12 +150,11 @@ func on_enemy_attack():
 	var alive = heroes.get_alive_members()
 	if alive.is_empty():
 		return
-
-	var attacker = enemies.get_alive_members()[0]
+	# Atacante random
+	var attacker = enemies.get_alive_members_random()
+	# Target random
 	var target = alive[randi() % alive.size()]
-	var damage = max(attacker.attack - target.defense, 0)
-
-	target.take_damage(attacker.attack)
+	var damage = target.take_damage(attacker.attack)
 
 	add_log(
 		attacker.name + " atacó a " + target.name + " e hizo " + str(damage) + " DMG",

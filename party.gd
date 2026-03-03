@@ -14,3 +14,9 @@ func remove_member(character: Character):
 
 func get_alive_members() -> Array[Character]:
 	return members.filter(func(c): return c.is_alive())
+
+func get_alive_members_random() -> Character:
+	var alive = get_alive_members()
+	if alive.is_empty():
+		return null
+	return alive[randi() % alive.size()]
