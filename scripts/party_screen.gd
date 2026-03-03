@@ -21,8 +21,6 @@ var heroes: Party
 var enemies: Party
 
 func _ready():
-	# Para que los nombres random sean diferentes cada vez
-	randomize()
 	# Cargo las parties
 	heroes = Party.new()
 	enemies = Party.new()
