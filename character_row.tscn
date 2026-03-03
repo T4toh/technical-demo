@@ -9,16 +9,12 @@ script = ExtResource("1_8qd21")
 
 [node name="NameLabel" type="Label" parent="." unique_id=1052771923]
 layout_mode = 2
-text = "Hero"
 
 [node name="HpLabel" type="Label" parent="." unique_id=755985430]
 layout_mode = 2
-text = "100/100"
 
 [node name="AtkLabel" type="Label" parent="." unique_id=1322333794]
 layout_mode = 2
-text = "ATK 20"
 
 [node name="DefLabel" type="Label" parent="." unique_id=1112485733]
 layout_mode = 2
-text = "DEF 5"

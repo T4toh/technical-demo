@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://bpa6fcr0mfewl"]
 
 [ext_resource type="Script" uid="uid://ch1tt014sj11l" path="res://scripts/party_screen.gd" id="1_vhbbx"]
+[ext_resource type="PackedScene" uid="uid://bagnregysa4d4" path="res://character_row.tscn" id="2_vaw0d"]
 
 [node name="Control" type="Control" unique_id=1722359616]
 layout_mode = 3
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_vhbbx")
+character_row_scene = ExtResource("2_vaw0d")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=130620689]
 layout_mode = 1

@@ -21,6 +21,8 @@ var heroes: Party
 var enemies: Party
 
 func _ready():
+	# Para que los nombres random sean diferentes cada vez
+	randomize()
 	# Cargo las parties
 	heroes = Party.new()
 	enemies = Party.new()
@@ -34,68 +36,51 @@ func _ready():
 	add_enemy.pressed.connect(_on_add_enemy)
 	
 	# Inicial
-	hero = Character.new()
-	hero.name = "Hero"
-	hero.max_hp = 100
-	hero.attack = 20
-	hero.defense = 5
-	
+	hero = Character.new("", 100, 20, 5)
 	heroes.add_member(hero)
 	
-	enemy = Character.new()
-	enemy.name = "Enemy"
-	enemy.max_hp = 100
-	enemy.attack = 20
-	enemy.defense = 5
-	
+	enemy = Character.new("", 100, 20, 5)
 	enemies.add_member(enemy)
 	
 	update_ui()
 
 func update_ui():
 
-	for child in heroes_container.get_children():
-		child.queue_free()
-
-	for member in heroes.members:
-		var row = character_row_scene.instantiate()
-		row.set_character(member)
-		heroes_container.add_child(row)
-
-		
 	# Limpiar heroes
 	for child in heroes_container.get_children():
 		child.queue_free()
-	
+
 	# Limpiar enemigos
 	for child in enemies_container.get_children():
 		child.queue_free()
-	
+
 	# Render heroes
 	for member in heroes.members:
-		var label = Label.new()
-		label.text = member.name + " | HP: " + str(member.max_hp)
-		heroes_container.add_child(label)
-	
+		# Primero creo el row para que no explote
+		var row = character_row_scene.instantiate()
+		# Luego lo agrego al contenedor para que se muestre
+		heroes_container.add_child(row)
+		# Finalmente le paso el personaje para que se muestre la info
+		row.set_character(member)
+
 	# Render enemigos
 	for member in enemies.members:
-		var label = Label.new()
-		label.text = member.name + " | HP: " + str(member.max_hp)
-		enemies_container.add_child(label)
+		var row = character_row_scene.instantiate()
+		enemies_container.add_child(row)
+		row.set_character(member)
 	
 func _on_add_hero():
-	hero = Character.new()
-	
 	var input_name = name_hero_input.text.strip_edges()
-	
-	if input_name == "":
-		hero.name = "Hero " + str(heroes.members.size() + 1)
-	else:
-		hero.name = input_name
-	
-	hero.max_hp = 100
-	hero.attack = 10 + heroes.members.size() * 2
-	hero.defense = 5
+	var max_hp = 100
+	var attack = 10 + heroes.members.size() * 2
+	var defense = 5
+
+	hero = Character.new(
+		input_name,
+		max_hp,
+		attack,
+		defense
+	)
 	
 	heroes.add_member(hero)
 	
@@ -104,18 +89,17 @@ func _on_add_hero():
 	update_ui()
 	
 func _on_add_enemy():
-	enemy = Character.new()
-	
 	var input_name = name_enemy_input.text.strip_edges()
-	
-	if input_name == "":
-		enemy.name = "Enemy " + str(enemies.members.size() + 1)
-	else:
-		enemy.name = input_name
-	
-	enemy.max_hp = 100
-	enemy.attack = 10 + enemies.members.size() * 2
-	enemy.defense = 5
+	var max_hp = 100
+	var attack = 10 + enemies.members.size() * 2
+	var defense = 5
+
+	enemy = Character.new(
+		input_name,
+		max_hp,
+		attack,
+		defense
+	)
 	
 	enemies.add_member(enemy)
 	

@@ -5,6 +5,7 @@ extends HBoxContainer
 @onready var atk_label = $AtkLabel
 @onready var def_label = $DefLabel
 
+
 func set_character(character: Character):
 	name_label.text = character.name
 	hp_label.text = str(character.current_hp) + " / " + str(character.max_hp)
