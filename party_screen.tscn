@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://bpa6fcr0mfewl"]
+
+[ext_resource type="Script" uid="uid://ch1tt014sj11l" path="res://scripts/party_screen.gd" id="1_vhbbx"]
+
+[node name="Control" type="Control" unique_id=1722359616]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vhbbx")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=130620689]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=153949257]
+layout_mode = 2
+
+[node name="LeftPanel" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=31074353]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddHero" type="Button" parent="MarginContainer/HBoxContainer/LeftPanel" unique_id=888922779]
+layout_mode = 2
+text = "Add Hero"
+
+[node name="NameHeroInput" type="LineEdit" parent="MarginContainer/HBoxContainer/LeftPanel" unique_id=804898236]
+layout_mode = 2
+
+[node name="HeroesContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/LeftPanel" unique_id=1501407682]
+layout_mode = 2
+
+[node name="RightPanel" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=229221174]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddEnemy" type="Button" parent="MarginContainer/HBoxContainer/RightPanel" unique_id=1437105632]
+layout_mode = 2
+text = "Add Enemy"
+
+[node name="NameEnemyInput" type="LineEdit" parent="MarginContainer/HBoxContainer/RightPanel" unique_id=1978414633]
+layout_mode = 2
+
+[node name="EnemiesContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/RightPanel" unique_id=210349413]
+layout_mode = 2
