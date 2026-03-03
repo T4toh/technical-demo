@@ -13,9 +13,51 @@ grow_vertical = 2
 script = ExtResource("1_vhbbx")
 character_row_scene = ExtResource("2_vaw0d")
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=130620689]
+[node name="Top" type="MarginContainer" parent="." unique_id=130620689]
 layout_mode = 1
-anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PartyList" type="HBoxContainer" parent="Top" unique_id=153949257]
+layout_mode = 2
+
+[node name="LeftPanel" type="VBoxContainer" parent="Top/PartyList" unique_id=31074353]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddHero" type="Button" parent="Top/PartyList/LeftPanel" unique_id=888922779]
+layout_mode = 2
+text = "Add Hero"
+
+[node name="NameHeroInput" type="LineEdit" parent="Top/PartyList/LeftPanel" unique_id=804898236]
+layout_mode = 2
+
+[node name="HeroesContainer" type="VBoxContainer" parent="Top/PartyList/LeftPanel" unique_id=1501407682]
+layout_mode = 2
+
+[node name="RightPanel" type="VBoxContainer" parent="Top/PartyList" unique_id=229221174]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddEnemy" type="Button" parent="Top/PartyList/RightPanel" unique_id=1437105632]
+layout_mode = 2
+text = "Add Enemy"
+
+[node name="NameEnemyInput" type="LineEdit" parent="Top/PartyList/RightPanel" unique_id=1978414633]
+layout_mode = 2
+
+[node name="EnemiesContainer" type="VBoxContainer" parent="Top/PartyList/RightPanel" unique_id=210349413]
+layout_mode = 2
+
+[node name="Bot" type="MarginContainer" parent="." unique_id=1482774299]
+layout_mode = 1
+anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -25,33 +67,47 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=153949257]
+[node name="Combat" type="VBoxContainer" parent="Bot" unique_id=1433145181]
 layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
 
-[node name="LeftPanel" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=31074353]
+[node name="Buttons" type="HBoxContainer" parent="Bot/Combat" unique_id=1031986759]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AddHero" type="Button" parent="MarginContainer/HBoxContainer/LeftPanel" unique_id=888922779]
-layout_mode = 2
-text = "Add Hero"
-
-[node name="NameHeroInput" type="LineEdit" parent="MarginContainer/HBoxContainer/LeftPanel" unique_id=804898236]
-layout_mode = 2
-
-[node name="HeroesContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/LeftPanel" unique_id=1501407682]
-layout_mode = 2
-
-[node name="RightPanel" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=229221174]
+[node name="HBoard" type="VBoxContainer" parent="Bot/Combat/Buttons" unique_id=869801325]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="AddEnemy" type="Button" parent="MarginContainer/HBoxContainer/RightPanel" unique_id=1437105632]
+[node name="HAttack" type="Button" parent="Bot/Combat/Buttons/HBoard" unique_id=1419555221]
 layout_mode = 2
-text = "Add Enemy"
+text = "Attack"
 
-[node name="NameEnemyInput" type="LineEdit" parent="MarginContainer/HBoxContainer/RightPanel" unique_id=1978414633]
+[node name="EBoard" type="VBoxContainer" parent="Bot/Combat/Buttons" unique_id=875957373]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="EnemiesContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/RightPanel" unique_id=210349413]
+[node name="EAttack" type="Button" parent="Bot/Combat/Buttons/EBoard" unique_id=1506397405]
 layout_mode = 2
+text = "Attack"
+
+[node name="BattleLogContainer" type="ScrollContainer" parent="Bot/Combat" unique_id=303009462]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BattleLog" type="VBoxContainer" parent="Bot/Combat/BattleLogContainer" unique_id=124024544]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BG" type="HBoxContainer" parent="Bot/Combat" unique_id=541520119]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HeroSide" type="VBoxContainer" parent="Bot/Combat/BG" unique_id=560886639]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnemySide" type="VBoxContainer" parent="Bot/Combat/BG" unique_id=1004748194]
+layout_mode = 2
+size_flags_horizontal = 3

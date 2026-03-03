@@ -31,9 +31,10 @@ func randomName():
 	available_names.remove_at(index)
 	return new_name
 
-func take_damage(amount: int):
+func take_damage(amount: int) -> int:
 	var dmg = max(amount - defense, 0)
 	current_hp = max(current_hp - dmg, 0)
+	return dmg
 
 func is_alive() -> bool:
 	return current_hp > 0
