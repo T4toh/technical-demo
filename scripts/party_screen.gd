@@ -18,6 +18,8 @@ extends Control
 @onready var battle_log = $Bot/Combat/BattleLogContainer/BattleLog
 @onready var battle_scroll = $Bot/Combat/BattleLogContainer
 
+@onready var end_combat_dialog = $EndCombatDialog
+
 # Units
 
 @export var battle_unit_scene: PackedScene
@@ -54,7 +56,10 @@ func _ready():
 	# Conecta botones de ataque
 	attack_hero_button.pressed.connect(on_hero_attack)
 	attack_enemy_button.pressed.connect(on_enemy_attack)
-	
+	# Conecta el botón de reiniciar combate
+	end_combat_dialog.confirmed.connect(reset_combat)
+
+
 	# Inicial
 	hero = Character.new("", 100, 20, 5)
 	heroes.add_member(hero)
@@ -265,17 +270,21 @@ func check_victory():
 	var enemies_alive = enemies.get_alive_members()
 
 	if heroes_alive.is_empty():
-		add_log("LOS ENEMIGOS GANARON", Color.RED)
+		end_combat_dialog.dialog_text = "Los enemigos ganaron.\n¿Reiniciar combate?"
 		disable_combat()
 
 	elif enemies_alive.is_empty():
-		add_log("LOS HEROES GANARON", Color.GREEN)
+		end_combat_dialog.dialog_text = "Los héroes ganaron.\n¿Reiniciar combate?"
 		disable_combat()
 
 func disable_combat():
 	attack_hero_button.disabled = true
 	attack_enemy_button.disabled = true
+	add_enemy.disabled = true
+	add_hero.disabled = true
+
 	add_log("COMBATE FINALIZADO", Color.YELLOW)
+	end_combat_dialog.popup_centered()  # 🔥 muestra modal
 
 func refresh_character_rows():
 	for row in heroes_container.get_children():
@@ -283,3 +292,22 @@ func refresh_character_rows():
 
 	for row in enemies_container.get_children():
 		row.update_display()
+
+func reset_combat():
+	heroes.members.clear()
+	enemies.members.clear()
+	
+	attack_hero_button.disabled = false
+	attack_enemy_button.disabled = false
+	add_enemy.disabled = false
+	add_hero.disabled = false
+	
+	clear_battle_log()  # 🔥 en vez de battle_log.clear()
+	
+	end_combat_dialog.hide()
+	update_ui()
+
+
+func clear_battle_log():
+	for child in battle_log.get_children():
+		child.queue_free()

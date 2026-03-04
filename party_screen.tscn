@@ -115,3 +115,8 @@ size_flags_horizontal = 3
 [node name="EnemySide" type="Control" parent="Bot/Combat/BG" unique_id=1248857200]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="EndCombatDialog" type="AcceptDialog" parent="." unique_id=243299748]
+title = "Combate Terminado"
+size = Vector2i(200, 150)
+ok_button_text = "Resetear Tablero"
