@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cnfggmvyfjec2"]
+
+[ext_resource type="Script" uid="uid://dsgyl16rrex67" path="res://scripts/battle_unit.gd" id="1_5i67u"]
+
+[node name="BattleUnit" type="Control" unique_id=2014466644]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_5i67u")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1221426955]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+color = Color(0, 0, 1, 1)

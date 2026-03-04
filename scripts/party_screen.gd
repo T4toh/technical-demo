@@ -18,6 +18,13 @@ extends Control
 @onready var battle_log = $Bot/Combat/BattleLogContainer/BattleLog
 @onready var battle_scroll = $Bot/Combat/BattleLogContainer
 
+# Units
+
+@export var battle_unit_scene: PackedScene
+
+@onready var hero_side = $Bot/Combat/BG/HeroSide
+@onready var enemy_side = $Bot/Combat/BG/EnemySide
+
 
 
 
@@ -55,6 +62,7 @@ func _ready():
 	enemy = Character.new("", 100, 20, 5)
 	enemies.add_member(enemy)
 
+	await get_tree().process_frame
 	update_ui()
 
 func update_ui():
@@ -81,6 +89,8 @@ func update_ui():
 		var row = character_row_scene.instantiate()
 		enemies_container.add_child(row)
 		row.set_character(member)
+	
+	update_battlefield()
 	
 func _on_add_hero():
 	var input_name = name_hero_input.text.strip_edges()
@@ -133,35 +143,56 @@ func on_hero_attack():
 	var alive = enemies.get_alive_members()
 	if alive.is_empty():
 		return
-	# Atacante random
+
 	var attacker = heroes.get_alive_members_random()
-	# Target random
-	var target = alive[randi() % alive.size()]
+	var target = enemies.get_alive_members_random()
+
 	var damage = target.take_damage(attacker.attack)
+
+	# UNIDADES VISUALES
+	var attacker_unit = get_unit_for_character(attacker, hero_side)
+	var target_unit = get_unit_for_character(target, enemy_side)
+
+	if attacker_unit:
+		attacker_unit.play_attack_animation()
+
+	if target_unit:
+		target_unit.play_hit_animation()
+		target_unit.update_visual()  # 🔥 refrescar estado muerte
 
 	add_log(
 		attacker.name + " atacó a " + target.name + " e hizo " + str(damage) + " DMG",
 		Color.GREEN
 	)
-
-	update_ui()
+	refresh_character_rows()
+	check_victory()
 
 func on_enemy_attack():
 	var alive = heroes.get_alive_members()
 	if alive.is_empty():
 		return
-	# Atacante random
 	var attacker = enemies.get_alive_members_random()
-	# Target random
-	var target = alive[randi() % alive.size()]
+	var target = heroes.get_alive_members_random()
+
 	var damage = target.take_damage(attacker.attack)
+	# UNIDADES VISUALES
+	var attacker_unit = get_unit_for_character(attacker, enemy_side)
+	var target_unit = get_unit_for_character(target, hero_side)
+
+	if attacker_unit:
+		attacker_unit.play_attack_animation()
+	if target_unit:
+		target_unit.play_hit_animation()
+		target_unit.update_visual()  # 🔥 refrescar estado muerte
+
+
 
 	add_log(
-		attacker.name + " atacó a " + target.name + " e hizo " + str(damage) + " DMG",
+		attacker.name + " atacó a " + target.name + " e hizo "+ str(damage) + " DMG",
 		Color.RED
 	)
-
-	update_ui()
+	refresh_character_rows()
+	check_victory()
 
 
 func add_log(text: String, color: Color):
@@ -179,3 +210,76 @@ func add_log(text: String, color: Color):
 
 	await get_tree().process_frame
 	battle_scroll.scroll_vertical = battle_scroll.get_v_scroll_bar().max_value
+
+func update_battlefield():
+	if battle_unit_scene == null:
+		push_error("BattleUnit scene not assigned!")
+		return
+
+	for c in hero_side.get_children():
+		c.queue_free()
+
+	for c in enemy_side.get_children():
+		c.queue_free()
+	
+	var spacing = 60
+	var index = 0
+
+	# HEROES
+	for member in heroes.members:
+		var unit = battle_unit_scene.instantiate()
+		hero_side.add_child(unit)
+
+		unit.set_character(member, false)
+		unit.set_attack_direction(1)
+
+		unit.position = Vector2(index * spacing, hero_side.size.y - 60)
+		index += 1
+
+	# Reseteo el index para los enemigos
+	index = 0
+
+	# ENEMIES
+	for member in enemies.members:
+		var unit = battle_unit_scene.instantiate()
+		enemy_side.add_child(unit)
+
+		unit.set_character(member, true)
+		unit.set_attack_direction(-1)
+
+		unit.position = Vector2(
+			enemy_side.size.x - (index + 1) * spacing,
+			enemy_side.size.y - 60
+		)
+		index += 1
+
+func get_unit_for_character(character: Character, side: Node) -> Node:
+	for unit in side.get_children():
+		if unit.character == character:
+			return unit
+	return null
+
+
+func check_victory():
+	var heroes_alive = heroes.get_alive_members()
+	var enemies_alive = enemies.get_alive_members()
+
+	if heroes_alive.is_empty():
+		add_log("LOS ENEMIGOS GANARON", Color.RED)
+		disable_combat()
+
+	elif enemies_alive.is_empty():
+		add_log("LOS HEROES GANARON", Color.GREEN)
+		disable_combat()
+
+func disable_combat():
+	attack_hero_button.disabled = true
+	attack_enemy_button.disabled = true
+	add_log("COMBATE FINALIZADO", Color.YELLOW)
+
+func refresh_character_rows():
+	for row in heroes_container.get_children():
+		row.update_display()
+
+	for row in enemies_container.get_children():
+		row.update_display()
