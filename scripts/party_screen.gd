@@ -227,7 +227,7 @@ func update_battlefield():
 	for c in enemy_side.get_children():
 		c.queue_free()
 	
-	var spacing = 60
+	var spacing = 80
 	var index = 0
 
 	# HEROES
@@ -238,7 +238,7 @@ func update_battlefield():
 		unit.set_character(member, false)
 		unit.set_attack_direction(1)
 
-		unit.position = Vector2(index * spacing, hero_side.size.y - 60)
+		unit.position = Vector2(index * spacing + 20, hero_side.size.y - 120)
 		index += 1
 
 	# Reseteo el index para los enemigos
@@ -253,8 +253,8 @@ func update_battlefield():
 		unit.set_attack_direction(-1)
 
 		unit.position = Vector2(
-			enemy_side.size.x - (index + 1) * spacing,
-			enemy_side.size.y - 60
+			enemy_side.size.x - (index + 1) * spacing - 20,
+			enemy_side.size.y - 120
 		)
 		index += 1
 
